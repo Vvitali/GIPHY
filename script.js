@@ -10,16 +10,11 @@ console.log("Script.js connected")
 
 var api_key = "df0b7eCkroZ5mXp7cm4RfbxalY6Miwbo"
 var url = "https://api.giphy.com/v1/gifs/search?";
-var searchTerm = "star";
-
+var searchTerm = "starwars";
+var limit = 10;
 var numberOfRecordsToRetrieve = 0;
 var mainResponseObject;
 
-$(document).ready(function() {
-    console.log("Document ready to work!")
-    $("#search_button").click(startSearch);
-    $("#reset").click();
-})
 
 function retrieveDatafromHTML() {
     searchTerm = $("#search_term").val();
@@ -61,31 +56,29 @@ function startSearch() {
         url: url,
         method: "GET",
         data: {
-
             q: searchTerm,
             rating: "g",
-            limit: "1",
+            limit: limit,
             api_key: api_key
         },
 
     }).done(function(result) {
         mainResponseObject = result;
-        console.log(mainResponseObject.data[0].images.fixed_height.url);
-        var newElement = $("<li>");
 
-        var newGif = $("<img>").attr("src", mainResponseObject.data[0].images.fixed_height.url);
-        //var newGif = $("<img>").attr("src", "https://lorempixel.com/580/250/nature/1/")
-        newElement.append(newGif);
+        //var personImage = $("<img>");
+        //personImage.attr("src", results[i].images.fixed_height.url);
 
-        var gifDescription = $("<div>");
-        gifDescription.attr("class", "caption center-align");
-        gifDescription.html("<h3>This is our big Tagline!</h3>");
 
-        newElement.append(gifDescription);
+        for (var i = 0; i < limit; i++) {
+            var newElement = $("<div class='gifElement'>");
+            newElement.append($("<p>").text("rating:" + mainResponseObject.data[i].rating));
+            var newGif = $("<img>");
 
-        $("#gif_field").append(newElement);
+            newGif.attr("src", mainResponseObject.data[i].images.fixed_height.url);
+            newElement.append(newGif)
 
-        // class="materialboxed"
+            $("#gifField").append(newElement);
+        }
 
 
     }).fail(function(err) {
@@ -123,9 +116,8 @@ function createNewParagraph() {
         $("#mainField").append(paragraph);
     }
 }
-$('.slider').slider();
-$(document).ready(function() {
-    $('.slider').slider();
-});
-
 startSearch()
+$(document).ready(function() {
+
+
+});

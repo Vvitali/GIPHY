@@ -12,7 +12,7 @@
 
 <body>
     <nav>
-        <div class="nav-wrapper #ff6e40 deep - orange accent - 2">
+        <div class="nav-wrapper #ff6e40 orange accent-2">
             <a href="#" class="brand-logo center">GIPHY Search</a>
             <ul id="nav-mobile" class="left hide-on-med-and-down">
                 <li>
@@ -30,29 +30,26 @@
         </div>
     </nav>
     <div class="container">
+        <!-- Buttons field -->
         <div class="row">
             <div class="col s12" id="buttonsField"></div>
         </div>
+
         <div class="row">
-            <div class="col s8"></div>
+            <!-- gifs field-->
+            <div class="col s8" id="gifField">
+
+            </div>
+            <!-- Sidebar -->
             <div class="col s4">
-                <div class="input-field">
-                    <label for="first_name">Add an animal:</label>
+                <div class="input-field col s6">
                     <input placeholder="Type your text here" id="search_field" type="text" class="validate">
+                    <label for="first_name">Search request</label>
+                    <a class="waves-effect waves-light btn disabled">Go</a>
                 </div>
-
             </div>
-        </div>
-        <div class="row">
-            <div class="col s12 slider">
-                <ul class="slides" id="gif_field">
-                </ul>
-            </div>
-
         </div>
     </div>
-
-
 
 
     <!--Scripts -->
@@ -62,8 +59,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
-    <link rel="stylesheet" href="style.css" type="text/css" />
-    <script type="text/javascript" src="script.js"></script>
+    <link rel="stylesheet" href="./style.css" type="text/css" />
+    <script type="text/javascript" src="./script.js"></script>
 </body>
 
 </html>
