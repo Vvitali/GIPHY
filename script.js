@@ -70,14 +70,17 @@ function startSearch() {
 
 
         for (var i = 0; i < limit; i++) {
-            var newElement = $("<div class='gifElement'>");
-            newElement.append($("<p>").text("rating:" + mainResponseObject.data[i].rating));
+            // var newElement = $("<div class='gifElement'>");
+            var newElement = $("<li class='gifElement'>");
+
             var newGif = $("<img>");
 
             newGif.attr("src", mainResponseObject.data[i].images.fixed_height.url);
             newElement.append(newGif)
+            newElement.append($("<p>").text("rating:" + mainResponseObject.data[i].rating));
+            //$("#gifField").append(newElement);
 
-            $("#gifField").append(newElement);
+            $("#gifField2").append(newElement);
         }
 
 
@@ -119,5 +122,6 @@ function createNewParagraph() {
 startSearch()
 $(document).ready(function() {
 
-
+    $('.slider').slider();
+    console.log("document ready");
 });
