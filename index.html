@@ -37,28 +37,20 @@
 
         <div class="row">
             <!-- gifs field-->
-            <div class="col s8" id="gifField">
+            <div class="col s10" id="gifField">
 
             </div>
             <!-- Sidebar -->
-            <div class="col s4">
+            <div class="col s2">
                 <div class="input-field col s6">
-                    <input placeholder="Type your text here" id="search_field" type="text" class="validate">
+                    <input placeholder="Type your text here" oninput="inputHolder()" id="search_field" type="text" class="validate">
                     <label for="first_name">Search request</label>
-                    <a class="waves-effect waves-light btn disabled">Go</a>
+                    <a class="waves-effect waves-light btn disabled" id="search_button">Go</a>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col s12">
-                <div class="slider">
-                    <ul class="slides" id="gifField2">
 
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
 
 

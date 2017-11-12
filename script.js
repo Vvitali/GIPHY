@@ -10,39 +10,15 @@ console.log("Script.js connected")
 
 var api_key = "df0b7eCkroZ5mXp7cm4RfbxalY6Miwbo"
 var url = "https://api.giphy.com/v1/gifs/search?";
-var searchTerm = "starwars";
+var searchTerm = "The matrix";
 var limit = 10;
-var numberOfRecordsToRetrieve = 0;
 var mainResponseObject;
 
+var arrayOfNames = ["The Matrix", "Star Wars", "Transformers", "War", "Peace", "Kitty", "Trump", "Hillary"];
 
 function retrieveDatafromHTML() {
-    searchTerm = $("#search_term").val();
-    if ($("#retrieve").val() > 10) {
-        alert("No more than 10 recerds at once")
-    }
-    if ($("#retrieve").val() == "") {
-        numberOfRecordsToRetrieve = 10;
-    }
-    else {
-        numberOfRecordsToRetrieve = $("#retrieve").val()
-    }
-    console.log("SearchTerm: " + searchTerm);
-    if ($("#startyear").val() == "") {
-        start_year = "19000101";
-    }
-    else {
-        start_year = $("#startyear").val() + "0101";
-
-    }
-    if ($("#endyear").val() == "") {
-        end_year = "20171230";
-    }
-    else {
-        console.log("New endyear");
-        end_year = $("#endyear").val() + "1230";
-    }
-
+    $("#search_button").addClass("disabled")
+    createButton($("#search_field").val());
 
 }
 
@@ -65,63 +41,66 @@ function startSearch() {
     }).done(function(result) {
         mainResponseObject = result;
 
-        //var personImage = $("<img>");
-        //personImage.attr("src", results[i].images.fixed_height.url);
-
-
         for (var i = 0; i < limit; i++) {
-            // var newElement = $("<div class='gifElement'>");
-            var newElement = $("<li class='gifElement'>");
+            var newElement = $("<div class='gifElement card'>");
+            var newGif = $("<img class='card-image'>");
+            newGif.attr("data-state", "still");
+            newGif.attr("data-still", mainResponseObject.data[i].images.fixed_height_still.url);
+            newGif.attr("data-animate", mainResponseObject.data[i].images.fixed_height.url);
+            newGif.attr("src", mainResponseObject.data[i].images.fixed_height_still.url);
+            newElement.append(newGif);
+            newElement.append($("<p class='center-align'>").text("Rating: " + mainResponseObject.data[i].rating));
 
-            var newGif = $("<img>");
+            $("#gifField").append(newElement);
 
-            newGif.attr("src", mainResponseObject.data[i].images.fixed_height.url);
-            newElement.append(newGif)
-            newElement.append($("<p>").text("rating:" + mainResponseObject.data[i].rating));
-            //$("#gifField").append(newElement);
-
-            $("#gifField2").append(newElement);
         }
-
-
     }).fail(function(err) {
         throw err;
     });
+    $('.carousel').carousel();
 }
 
-//do not use it nowhere, but startSearch
-function createNewParagraph() {
-    console.log("createNewParagraph:");
+function createButton(Name) {
+    var button = $("<button class='waves-effect waves-light btn'>").text(Name).attr("data-name", Name);
 
-    for (var i = 0; i < 9; i++) {
-        var paragraph = $("<div>");
-
-        paragraph.attr("class", "paragraphClass");
-        var header3 = $("<h3>");
-
-        header3.text(mainResponseObject.response.docs[i].headline.main);
-        var innerParagraph = $("<p>");
-        innerParagraph.text(mainResponseObject.response.docs[i].snippet);
-        var linkUrl = $("<a />", {
-            //id: "id5",
-            name: "link",
-            href: mainResponseObject.response.docs[i].web_url,
-            text: "URL-link"
-        });
-        var pubDate = $("<p>");
-        pubDate.text(mainResponseObject.response.docs[i].pub_date);
-
-        paragraph.append(header3);
-        paragraph.append(innerParagraph);
-        paragraph.append(pubDate);
-        paragraph.append(linkUrl);
-
-        $("#mainField").append(paragraph);
-    }
+    $("#buttonsField").append(button)
 }
-startSearch()
+
+function inputHolder() {
+    $("#search_button").removeClass("disabled")
+}
+
 $(document).ready(function() {
 
-    $('.slider').slider();
+    $("#search_button").click();
+    $("#buttonsField").on("click", "button", function(event) {
+        searchTerm = $(event.currentTarget).attr("data-name");
+        $("#gifField").html("");
+        startSearch();
+    });
+    //creating buttons
+    for (var i = 0; i < arrayOfNames.length; i++) {
+        createButton(arrayOfNames[i]);
+    }
+    //listener for image (still or animate)
+    $("#gifField").on("click", "img", function(event) {
+
+        var state = $(event.currentTarget).attr("data-state");
+        console.log(state);
+
+        if (state === "still") {
+            $(event.currentTarget).attr("src", $(event.currentTarget).attr("data-animate"))
+            $(event.currentTarget).attr("data-state", "animate");
+        }
+
+        if (state === "animate") {
+            $(event.currentTarget).attr("src", $(event.currentTarget).attr("data-still"))
+            $(event.currentTarget).attr("data-state", "still");
+        }
+    });
     console.log("document ready");
+
+    //listener for add new button
+    $("#search_button").click(retrieveDatafromHTML);
+
 });
